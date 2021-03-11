@@ -1,0 +1,16 @@
+02 March 2021
+
+Started writing parse_flags. Many methods unimplemented.
+
+09 March 2021
+
+Learned how to do basic type erasure. Using it to make
+code generic.
+
+11 March 2021
+
+Wrote a C and C++ version to compare ease of use.
+While the C++ api is more generic and a bit cleaner,
+the C version is really simple and tiny.
+
+Cleaning things up and getting it to build with cmake.
