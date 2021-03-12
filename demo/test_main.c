@@ -29,8 +29,11 @@ int main(int argc, char *argv[])
     memset(&pf_inst, 0, sizeof(pf_inst));
     
     flag_count = sizeof(my_flags)/sizeof(my_flags[0]);
-    parse_flags_init(my_flags, flag_count, &pf_inst);
-    
+    res = parse_flags_init(my_flags, flag_count, &pf_inst);
+    if (res) {
+        printf("failure to parse flags: %d\n", res);
+    }
+
     res = parse_flags_parse(argc, argv, &pf_inst);
     if (res) {
         parse_flags_show_help(&pf_inst);

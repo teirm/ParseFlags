@@ -20,12 +20,14 @@ typedef struct {
 typedef struct {
     int total_flags;
     flag_container_t *flags;
+    const char       *message;
 } parse_flags_t;
 
-// initialize the parse flags structure
-void parse_flags_init(flag_container_t *flags, 
+int parse_flags_init(flag_container_t *flags, 
                       int flag_count, 
                       parse_flags_t *pf_inst);
+
+void parse_flags_add_message(parse_flags_t *pf_inst, const char* message); 
 
 void parse_flags_show_help(parse_flags_t *pf_inst);
 
