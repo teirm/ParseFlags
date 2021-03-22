@@ -3,6 +3,8 @@
 
 #include <cstring>
 #include <cstdio>
+#include <algorithm>
+#include <vector>
 
 #include "parse_flags.hpp"
 
@@ -87,7 +89,7 @@ namespace parse_flags {
     //         1 on error
     int ParseFlags::parse_args(int argc, char *argv[]) 
     {
-        if (argc - 1 > flags_.size()) {
+        if ((size_t)argc - 1 > flags_.size()) {
             // more arguments than flags provided 
             // an error case -- ignore the program
             // name
