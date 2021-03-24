@@ -13,4 +13,11 @@ Wrote a C and C++ version to compare ease of use.
 While the C++ api is more generic and a bit cleaner,
 the C version is really simple and tiny.
 
-Cleaning things up and getting it to build with cmake.
+Cleaning things up and getting it to build with CMake.
+
+23 March 2021
+
+Original CMake build structure was ugly and showed
+a poor understanding of targets. Went back to the book
+and trusted examples and improved structure. Much 
+cleaner now.
