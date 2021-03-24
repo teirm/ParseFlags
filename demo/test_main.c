@@ -4,8 +4,7 @@
  * @date   2021-03-11
  */
 
-/* TODO: this relative path is a bit ugly... */
-#include "../src/c/parse_flags.h"
+#include <c/parse_flags.h>
 
 #include <stdio.h>
 #include <string.h>

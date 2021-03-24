@@ -6,7 +6,7 @@
 #include <algorithm>
 #include <vector>
 
-#include "parse_flags.hpp"
+#include <cpp/parse_flags.hpp>
 
 namespace parse_flags {
     

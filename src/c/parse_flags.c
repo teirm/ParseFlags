@@ -6,7 +6,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-#include "parse_flags.h"
+#include <c/parse_flags.h>
 
 
 static int parse_flags_split_flag(char *input, 

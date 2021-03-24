@@ -5,8 +5,7 @@
 
 
 #include "my_parsers.hpp"
-//TODO is there a way to clean up these relative paths
-#include "../src/cpp/parse_flags.hpp"
+#include <cpp/parse_flags.hpp>
 
 #include <cstdio>
 
