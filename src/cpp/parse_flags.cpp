@@ -5,6 +5,7 @@
 #include <cstdio>
 #include <algorithm>
 #include <vector>
+#include <string>
 
 #include <cpp/parse_flags.hpp>
 
@@ -35,7 +36,13 @@ namespace parse_flags {
         }
         return 0;
     }
-    
+
+    int parse_value(const char *value_str, std::string &storage) {
+        assert(value_str != nullptr);
+        storage.assign(value_str);
+        return 0;
+    }
+
     // @brief Check if the given input is the help string
     //
     // @param[in]   input   input to check

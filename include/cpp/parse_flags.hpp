@@ -21,6 +21,7 @@ enum class ParseFlagStatus : int {
 int parse_value(const char *value_str, int &storage); 
 int parse_value(const char *value_str, double &storage);
 int parse_value(const char *value_str, bool &storage);
+int parse_value(const char *value_str, std::string &storage);
 
 // A type erased type to hold storage for arbitrary
 // values and parse them appropriately
