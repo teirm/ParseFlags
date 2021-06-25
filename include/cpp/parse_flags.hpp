@@ -64,14 +64,18 @@ public:
     
     template<typename T> 
     void add_flag(const char *flag, T &storage, const char *message);
+
+    template<typename T>
+    void add_flag_optional(const char *flag, T &storage, T &&def, const char *message);
     void add_message(const char *message) { message_ = message; };
     int parse_args(int argc, char *argv[]);  
+    void show_help();
 private:
 
     const char *message_;
-    std::vector<flag_storage_t> flags_;
-    void show_help();
-    
+    std::vector<flag_storage_t> required_flags_;
+    std::vector<flag_storage_t> optional_flags_; 
+
     int parse_flag(char *input, char **flag, char **value_str);
 
     bool is_help(const char *input);
@@ -85,7 +89,20 @@ private:
 template<typename T>
 void ParseFlags::add_flag(const char *flag, T &storage, const char *message)
 {
-    flags_.emplace_back(flag, storage, message);
+    required_flags_.emplace_back(flag, storage, message);
+}
+
+// @brief add an optional flag associated with some storage
+// 
+// @param[in]   flag     flag to add
+// @param[out]  storage  value to use as storage
+// @param[in    def      value to use as default
+// @param[in]   message  message associated with flag (optional)
+template<typename T>
+void ParseFlags::add_flag_optional(const char *flag, T &storage, T &&def, const char *message)
+{
+    storage = def;
+    optional_flags_.emplace_back(flag, storage, message);
 }
 
 }

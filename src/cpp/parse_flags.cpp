@@ -96,10 +96,12 @@ namespace parse_flags {
     //         1 on error
     int ParseFlags::parse_args(int argc, char *argv[]) 
     {
-        if ((size_t)argc - 1 > flags_.size()) {
-            // more arguments than flags provided 
-            // an error case -- ignore the program
-            // name
+        size_t total_flags = required_flags_.size() + optional_flags_.size();
+        size_t arguments = argc - 1; 
+
+        if (arguments > total_flags || arguments < required_flags_.size()) {
+            // more arguments than flags provided
+            // or fewer arguments than required
             show_help();
             return 1;
         }
@@ -117,13 +119,31 @@ namespace parse_flags {
                 printf("error from parse_flag: %s\n", argv[i]);
                 return res;
             }
-            auto find_iter = std::find_if(flags_.begin(),
-                         flags_.end(),
+            
+            // check the optional flags first to see if it is available
+            auto find_iter = std::find_if(optional_flags_.begin(),
+                         optional_flags_.end(),
+                         [flag](flag_storage_t &node) {
+                            return !strncmp(flag, node.flag, strlen(node.flag));
+                            });
+            if (find_iter != optional_flags_.end()) {
+                res = find_iter->parse(value_str);
+                if (res) {
+                    return res;
+                }
+                // each flag is either optional or required -- not both.
+                // if found in the optional list, no sense in checking the
+                // required lists
+                continue;
+            }
+
+            find_iter = std::find_if(required_flags_.begin(),
+                         required_flags_.end(),
                          [flag](flag_storage_t &node) {
                             return !strncmp(flag, node.flag, strlen(node.flag));
                             }); 
-            if (find_iter == flags_.end()) {
-                printf("flag never set:\"%s\"\n", flag);
+            if (find_iter == required_flags_.end()) {
+                printf("required flag never set:\"%s\"\n", flag);
                 // flag was never set 
                 return 1;
             }
@@ -147,22 +167,38 @@ namespace parse_flags {
         int padding  = 0;
 
         if (message_ != nullptr) {
-            printf("%s\n", message_);
+            printf("%s\n\n", message_);
         }
-        
-        std::for_each(flags_.begin(), flags_.end(), 
+
+        std::for_each(required_flags_.begin(), required_flags_.end(), 
                       [&](flag_storage_t &e) {
                             flag_len = strlen(e.flag);
                             if (flag_len > padding) {
                                 padding = flag_len;
                             }
                         });
-
-        for (auto &e : flags_) {
+        
+        std::for_each(optional_flags_.begin(), optional_flags_.end(), 
+                      [&](flag_storage_t &e) {
+                            flag_len = strlen(e.flag);
+                            if (flag_len > padding) {
+                                padding = flag_len;
+                            }
+                        });
+        
+        printf("Required Flags:\n");
+        for (auto &e : required_flags_) {
             printf(" --%*s%s\n", 
                     -(padding+PARSE_FLAGS_DEFAULT_PAD), 
                     e.flag, e.message);
         }
+        printf("\n\nOptional Flags:\n");
+        for (auto &e : optional_flags_) {
+            printf(" --%*s%s\n", 
+                    -(padding+PARSE_FLAGS_DEFAULT_PAD), 
+                    e.flag, e.message);
+        }
+
         std::exit(1);
     }
 }
