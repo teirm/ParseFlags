@@ -186,17 +186,22 @@ namespace parse_flags {
                             }
                         });
         
-        printf("Required Flags:\n");
-        for (auto &e : required_flags_) {
-            printf(" --%*s%s\n", 
-                    -(padding+PARSE_FLAGS_DEFAULT_PAD), 
-                    e.flag, e.message);
+        if (required_flags_.size() != 0) {
+            printf("Required Flags:\n");
+            for (auto &e : required_flags_) {
+                printf(" --%*s%s\n", 
+                        -(padding+PARSE_FLAGS_DEFAULT_PAD), 
+                        e.flag, e.message);
+            }
         }
-        printf("\n\nOptional Flags:\n");
-        for (auto &e : optional_flags_) {
-            printf(" --%*s%s\n", 
-                    -(padding+PARSE_FLAGS_DEFAULT_PAD), 
-                    e.flag, e.message);
+        
+        if (optional_flags_.size() != 0) {
+            printf("\n\nOptional Flags:\n");
+            for (auto &e : optional_flags_) {
+                printf(" --%*s%s\n", 
+                        -(padding+PARSE_FLAGS_DEFAULT_PAD), 
+                        e.flag, e.message);
+            }
         }
 
         std::exit(1);
